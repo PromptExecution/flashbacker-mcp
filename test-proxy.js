@@ -29,7 +29,7 @@ const tests = [
 
           if (hasVersionCheck) {
             console.log('✅ PASS: Node.js version check appears on startup');
-            console.log(`   Output: ${stderr.split('\n')[1]}`);
+            console.log(`   Output: ${stderr.split('\n')[1] || stderr.split('\n')[0] || 'N/A'}`);
             resolve(true);
           } else {
             console.log('❌ FAIL: No Node.js version check found');
