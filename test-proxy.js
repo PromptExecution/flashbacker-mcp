@@ -54,6 +54,8 @@ const tests = [
         }
       };
 
+      // Ensure the test directory exists
+      fs.mkdirSync('/tmp/test-flashback', { recursive: true });
       const proc = spawn(process.execPath, ['./flashbacker-mcp'], {
         cwd: '/tmp/test-flashback'
       });
