@@ -150,12 +150,26 @@ const tests = [
 
       return new Promise((resolve) => {
         let stdout = '';
+        let ready = false;
 
         proc.stdout.on('data', (data) => {
-          stdout += data.toString();
+          const str = data.toString();
+          stdout += str;
+          // Wait for a readiness signal before sending the request.
+          // Adjust the readiness check as needed for your server.
+          if (!ready && (str.includes('Node.js') || str.toLowerCase().includes('listening') || str.toLowerCase().includes('ready'))) {
+            ready = true;
+            proc.stdin.write(JSON.stringify(request) + '\n');
+          }
         });
 
-        proc.stdin.write(JSON.stringify(request) + '\n');
+        // Fallback: If no readiness signal after 1s, send anyway.
+        setTimeout(() => {
+          if (!ready) {
+            proc.stdin.write(JSON.stringify(request) + '\n');
+            ready = true;
+          }
+        }, 1000);
 
         setTimeout(() => {
           proc.kill();
