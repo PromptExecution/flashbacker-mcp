@@ -109,11 +109,23 @@ const tests = [
       return new Promise((resolve) => {
         let stdout = '';
 
+        let requestSent = false;
         proc.stdout.on('data', (data) => {
           stdout += data.toString();
+          // Wait for server to signal readiness before sending request
+          if (!requestSent && stdout.includes('ready')) { // Replace 'ready' with actual readiness message if needed
+            proc.stdin.write(JSON.stringify(request) + '\n');
+            requestSent = true;
+          }
         });
 
-        proc.stdin.write(JSON.stringify(request) + '\n');
+        // Fallback: if readiness message is not received in time, send anyway after timeout
+        setTimeout(() => {
+          if (!requestSent) {
+            proc.stdin.write(JSON.stringify(request) + '\n');
+            requestSent = true;
+          }
+        }, 1000);
 
         setTimeout(() => {
           proc.kill();
