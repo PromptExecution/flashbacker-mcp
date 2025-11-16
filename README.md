@@ -96,7 +96,7 @@ Flashbacker integrates with [b00t](https://github.com/elasticdotventures/_b00t_)
 
 ```bash
 # Copy datum files to b00t registry
-cp _b00t_/*.toml ~/.dotfiles/_b00t_/
+cp _b00t_/*.toml ~/.b00t/
 
 # Let b00t install flashbacker
 b00t learn flashbacker
@@ -111,11 +111,12 @@ b00t flashback persona architect "review auth system"
 
 - **Datum Registry**: Flashbacker is a first-class b00t datum (CLI + MCP)
 - **Agent Learning**: Agents can `b00t learn flashbacker` for on-demand capabilities
-- **MCP Integration**: Exposed as MCP server with 12 tools via `b00t-mcp`
+- **MCP Integration**: Exposed as MCP server (flashbacker-mcp) with 12 tools
 - **Docker Support**: Fallback containerized deployment
 - **Multi-Agent**: Share project memory across agent hive
+- **Poly-Proxy Registry** *(aspirational)*: Codified opinions on tool usage and best practices
 
-> 📦 **[B00t Integration Guide →](B00T_INTEGRATION.md)** - Complete setup and usage
+> 📦 **[B00t Integration Guide →](B00T_INTEGRATION.md)** - Complete setup, usage, and aspirational registry
 
 ## 🎯 How You Actually Use Flashbacker
 

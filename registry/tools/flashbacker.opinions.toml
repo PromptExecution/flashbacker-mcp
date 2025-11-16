@@ -1,0 +1,196 @@
+# Flashbacker - Codified Opinions for Poly-Proxy MCP Tool Registry
+# These opinions guide agents on HOW to use flashbacker optimally
+
+[tool]
+name = "flashbacker"
+version = "2.4.1+"
+category = "state-management"
+mcp_server = "flashbacker-mcp"
+
+[opinions.environment]
+# Preferred Node.js version for optimal compatibility
+preferred_node = "22.x"
+minimum_node = "18.0.0"
+maximum_node = "24.999.999"
+
+# Why: Native modules (tree-sitter) have specific version requirements
+# Rationale: 22.x is current LTS with best compatibility; 18.x minimum for ESM support
+reasoning = """
+Flashbacker uses native modules (tree-sitter) for code parsing that require
+specific Node.js version compatibility. 22.x LTS provides optimal performance
+and stability. Versions below 18.x lack required ESM features.
+"""
+
+[opinions.initialization]
+# Always initialize before first use in a project
+required_command = "flashback init"
+required_before = ["persona", "agent", "memory", "working-plan"]
+
+# Why: Sets up complete infrastructure for session continuity
+reasoning = """
+Initialization creates the .claude directory structure, installs templates,
+sets up hooks for automatic context loading, and configures the project for
+session continuity. Without init, other commands will fail or behave incorrectly.
+"""
+
+# Recommended initialization flags
+[opinions.initialization.flags]
+mcp = { recommended = true, reasoning = "Includes context7, playwright, sequential-thinking MCP servers for enhanced capabilities" }
+refresh = { use_when = "updating templates", reasoning = "Overwrites existing templates with latest versions" }
+
+[opinions.session_management]
+# Use automatic hooks, not manual saves
+strategy = "automatic"
+manual_saves = "discouraged"
+
+# Why: Hooks ensure consistency, manual saves are error-prone
+reasoning = """
+The SessionStart hook automatically loads project context (REMEMBER.md,
+WORKING_PLAN.md, conversation history) at the start of each session,
+eliminating the need for repeated manual context-setting. Manual saves
+are still available but should be reserved for explicit checkpointing.
+"""
+
+[opinions.persona_vs_agent]
+# When to use personas vs agents
+[opinions.persona_vs_agent.persona]
+use_for = ["quick analysis", "specific questions", "immediate feedback", "focused reviews"]
+context = "current conversation"
+latency = "low"
+depth = "moderate"
+
+reasoning = """
+Personas apply specialist templates directly in the current conversation,
+providing immediate analysis without context switching. Best for quick
+insights and focused questions where full project context isn't needed.
+"""
+
+[opinions.persona_vs_agent.agent]
+use_for = ["deep analysis", "multi-file reviews", "complex decisions", "architectural planning"]
+context = "full project (REMEMBER.md, WORKING_PLAN.md, conversation history)"
+latency = "higher"
+depth = "comprehensive"
+
+reasoning = """
+Agents spawn dedicated subagent conversations with complete project context
+automatically gathered. Best for complex analysis requiring understanding
+of architectural patterns, historical decisions, and cross-cutting concerns.
+"""
+
+[opinions.memory_patterns]
+# How to write effective project memory
+style = "decision-oriented"
+capture = "why, not what"
+
+# Good vs Bad examples
+[opinions.memory_patterns.examples]
+bad = [
+    "Uses JWT",
+    "Has authentication", "Added feature X"
+]
+good = [
+    "Uses JWT with RS256 signing, 1h access token expiry, 7d refresh tokens to balance security and UX",
+    "Authentication uses Auth0 because team lacks security expertise and PCI compliance is required",
+    "Added feature X to address user pain point Y identified in sprint 23 user testing"
+]
+
+reasoning = """
+Memory should capture the reasoning behind decisions, not just facts. Future
+agents need to understand WHY choices were made to make informed recommendations.
+Facts are visible in code; decisions and constraints are not.
+"""
+
+[opinions.working_plan]
+# Task management best practices
+task_size = "small and actionable"
+status_tracking = "required"
+review_frequency = "each session"
+
+# Task breakdown guidance
+[opinions.working_plan.tasks]
+max_scope = "1-2 hours of work"
+completion_criteria = "clear and testable"
+dependencies = "explicitly noted"
+
+reasoning = """
+Small, actionable tasks enable better progress tracking, more accurate estimates,
+and clearer completion criteria. Large tasks should be broken down into
+subtasks. Each task should be reviewable and testable independently.
+"""
+
+[opinions.technical_debt]
+# Debt management workflow
+detection_frequency = "bi-weekly"
+prioritization = "impact-first"
+remediation_tracking = "in working plan"
+
+# Detection command
+command = "flashback debt-hunter"
+
+reasoning = """
+Technical debt accumulates gradually. Regular scanning (bi-weekly) catches
+issues before they compound. Prioritize by impact (how much it slows development)
+not by size. Track remediation in working plan to ensure follow-through.
+"""
+
+[opinions.multi_agent_collaboration]
+# How multiple agents should use flashbacker
+memory_ownership = "shared"
+memory_updates = "append-only preferred"
+working_plan_conflicts = "first-write-wins with merge"
+
+reasoning = """
+In multi-agent scenarios (hive missions), all agents share REMEMBER.md for
+tribal knowledge. Updates should append new knowledge rather than modifying
+existing entries. Working plan conflicts are resolved by timestamp (first
+agent to write wins), with manual merge for conflicts.
+"""
+
+[proxy.behaviors]
+# How the poly-proxy should enforce these opinions
+
+[proxy.behaviors.pre_flight]
+# Checks before executing commands
+check_node_version = true
+check_init_status = true
+warn_on_manual_saves = true
+
+[proxy.behaviors.auto_correct]
+# Automatic corrections the proxy should make
+upgrade_to_init_mcp = { from = "flashback init", to = "flashback init --mcp", reasoning = "MCP servers enhance capabilities" }
+suggest_agent_over_persona = { threshold = "3+ files involved", reasoning = "Agents better for multi-file analysis" }
+
+[proxy.behaviors.learning]
+# What the proxy teaches agents over time
+suggest_personas = "based on task context"
+recommend_patterns = "from usage examples"
+enforce_best_practices = "with helpful explanations"
+
+[integration.b00t]
+# How this integrates with b00t framework
+datum_cli = "_b00t_/flashbacker.cli.toml"
+datum_mcp = "_b00t_/flashbacker.mcp.toml"
+search_paths = [
+    "_b00t_/",              # Project-specific custom datums
+    "~/.b00t/",             # User b00t directory
+    "~/.dotfiles/_b00t_/"   # Legacy dotfiles search path
+]
+
+[integration.hive]
+# Multi-agent hive integration
+shared_memory = true
+memory_path = ".claude/flashback/memory/REMEMBER.md"
+working_plan_path = ".claude/flashback/memory/WORKING_PLAN.md"
+coordination_via = "file-based (future: Redis pub/sub)"
+
+[versioning]
+# Version compatibility and evolution
+schema_version = "1.0.0-aspirational"
+breaking_changes_require = "major version bump"
+opinion_changes_require = "documentation and reasoning"
+
+[meta]
+status = "aspirational"
+last_updated = "2025-11-16"
+maintained_by = "flashbacker-b00t integration team"
+feedback_welcome = true

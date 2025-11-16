@@ -1,0 +1,60 @@
+# Schema for Tool Opinions in Poly-Proxy MCP Tool Registry
+# Version: 1.0.0-aspirational
+
+[schema]
+version = "1.0.0"
+name = "tool-opinions"
+description = "Codified opinions for MCP tools in the b00t ecosystem"
+
+# Required fields
+[schema.required]
+tool = { type = "table", required_fields = ["name", "version", "category", "mcp_server"] }
+meta = { type = "table", required_fields = ["status", "last_updated"] }
+
+# Optional but recommended sections
+[schema.sections]
+opinions = {
+    description = "Codified best practices for tool usage",
+    subsections = ["environment", "initialization", "session_management"],
+    examples_required = true
+}
+
+proxy = {
+    description = "How the poly-proxy should enforce opinions",
+    subsections = ["behaviors"],
+    enforcement_levels = ["warning", "error", "auto-correct"]
+}
+
+integration = {
+    description = "Integration points with b00t and hive",
+    subsections = ["b00t", "hive"],
+    required = true
+}
+
+versioning = {
+    description = "Schema and opinion versioning",
+    required = true
+}
+
+# Opinion structure
+[schema.opinion_structure]
+# Each opinion should have:
+declaration = { type = "value or table", description = "The opinion itself" }
+reasoning = { type = "string", description = "WHY this opinion exists", required = true }
+examples = { type = "array or table", description = "Good/bad examples", recommended = true }
+
+# Validation rules
+[schema.validation]
+reasoning_min_length = 50  # Opinions must explain WHY
+examples_when_ambiguous = true  # Show good/bad examples for clarity
+versioning_required = true  # Track opinion evolution
+
+# Evolution guidelines
+[schema.evolution]
+adding_opinions = "minor version bump"
+changing_opinions = "requires reasoning and deprecation period"
+removing_opinions = "major version bump with migration guide"
+
+[meta]
+schema_type = "aspirational"
+purpose = "Ensure consistent, well-reasoned tool opinions"

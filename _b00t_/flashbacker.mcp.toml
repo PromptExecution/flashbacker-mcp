@@ -45,7 +45,7 @@ if output.is_empty() {
 "--rm" = true
 "-v" = "${PWD}:/workspace"
 "flashbacker-b00t:latest" = true
-"node" = "/app/mcp-server.js"
+"/app/flashbacker-mcp" = true
 
 [[b00t.usage]]
 description = "Use flashbacker through MCP to initialize project"

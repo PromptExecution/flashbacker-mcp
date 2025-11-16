@@ -29,8 +29,9 @@ RUN npm ci --production=false && \
     npm run build && \
     npm link
 
-# Copy MCP server wrapper
-COPY mcp-server.js ./
+# Copy flashbacker-mcp server
+COPY flashbacker-mcp ./
+RUN chmod +x flashbacker-mcp
 
 # Create workspace
 RUN mkdir -p /workspace

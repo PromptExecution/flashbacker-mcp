@@ -58,8 +58,15 @@ For containerized deployment:
 ### Option 1: As a b00t Datum (Recommended)
 
 ```bash
-# Copy datum files to b00t's registry
+# Copy datum files to b00t's registry (choose appropriate location)
+# Option A: User-level datums
+cp _b00t_/*.toml ~/.b00t/
+
+# Option B: Legacy dotfiles path (if using older b00t)
 cp _b00t_/*.toml ~/.dotfiles/_b00t_/
+
+# Option C: Project-specific datums (for this project only)
+# Files already in _b00t_/ will be discovered automatically
 
 # Let b00t install flashbacker
 b00t install flashbacker
@@ -339,6 +346,119 @@ To improve b00t integration:
 3. Follow b00t's datum patterns
 4. Document in this file
 5. Submit PR
+
+## Poly-Proxy MCP Tool Registry (Aspirational)
+
+Flashbacker includes an **aspirational** poly-proxy MCP tool registry with codified opinions on how to configure and use MCP tools.
+
+### Concept
+
+The poly-proxy registry provides:
+
+- **Codified Opinions** - Best practices for tool configuration (e.g., "prefer Node.js 22.x", "always init before use")
+- **Standardized Patterns** - Consistent interfaces across diverse tools
+- **Proxy Layer** - Intelligent routing and enforcement of best practices
+- **Tool Discovery** - Automatic capability detection
+- **Multi-Agent Coordination** - Shared patterns for hive missions
+
+### Registry Structure
+
+```
+registry/
+├── tools/
+│   └── flashbacker.opinions.toml  # Codified opinions for flashbacker
+├── opinions/                        # Shared opinion templates
+├── schemas/
+│   └── tool-opinions.schema.toml   # Validation schema
+└── README.md
+```
+
+### Codified Opinions for Flashbacker
+
+The registry includes opinions such as:
+
+**Environment:**
+- Preferred Node.js: 22.x LTS
+- Minimum: 18.0.0 (ESM support)
+- Why: Native modules require specific versions
+
+**Initialization:**
+- Required command: `flashback init`
+- Required before: All other commands
+- Why: Sets up complete infrastructure
+
+**Session Management:**
+- Strategy: Automatic (via hooks)
+- Manual saves: Discouraged
+- Why: Hooks ensure consistency
+
+**Persona vs Agent:**
+- Persona: Quick analysis, current conversation, moderate depth
+- Agent: Deep analysis, full project context, comprehensive
+- Why: Different use cases have different optimal tools
+
+**Memory Patterns:**
+- Style: Decision-oriented (capture "why", not just "what")
+- Examples: "Uses JWT because..." not just "Uses JWT"
+- Why: Future agents need context for decisions
+
+**Working Plan:**
+- Task size: Small and actionable (1-2 hours)
+- Status tracking: Required
+- Why: Better progress tracking and estimates
+
+### Proxy Behaviors (Future)
+
+When implemented, the proxy will:
+
+- **Pre-flight checks**: Verify Node.js version, init status
+- **Auto-correct**: Upgrade `init` to `init --mcp` for better capabilities
+- **Learning**: Suggest personas based on task context
+- **Enforcement**: Warn on anti-patterns with helpful explanations
+
+### Status
+
+This is **aspirational** - the vision for how the registry should work:
+
+✅ **Completed:**
+- Datum integration (flashbacker.cli.toml, flashbacker.mcp.toml)
+- MCP server (flashbacker-mcp)
+- Docker fallback support
+- Codified opinions file (registry/tools/flashbacker.opinions.toml)
+- Schema definition (registry/schemas/tool-opinions.schema.toml)
+
+🚧 **In Progress:**
+- Proxy layer implementation
+- Automatic opinion enforcement
+- Cross-tool composition patterns
+- Hive coordination protocols
+
+### Usage Vision
+
+```bash
+# Future: Query the registry
+b00t registry discover state-management
+# Returns: flashbacker with codified opinions
+
+# Future: Use with opinion enforcement
+b00t registry use flashbacker init --follow-opinions
+# Proxy checks Node.js version, validates env, enforces best practices
+
+# Future: Multi-agent coordination
+b00t hive mission "refactor auth" --tools flashbacker
+# All agents follow same opinions, share memory automatically
+```
+
+### Contributing to Opinions
+
+When adding or modifying opinions:
+
+1. **Document reasoning** - WHY this opinion exists (min 50 chars)
+2. **Provide examples** - Show good/bad patterns when ambiguous
+3. **Version properly** - Opinion changes require explanation
+4. **Consider hive** - How do multiple agents coordinate?
+
+See `registry/schemas/tool-opinions.schema.toml` for validation rules.
 
 ## License
 
