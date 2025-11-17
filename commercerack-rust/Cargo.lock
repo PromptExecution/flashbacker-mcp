@@ -678,12 +678,14 @@ name = "commercerack-order"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "async-trait",
  "chrono",
  "commercerack-db",
+ "entity",
  "rust_decimal",
+ "sea-orm",
  "serde",
  "serde_json",
- "sqlx",
  "tokio",
 ]
 
@@ -703,12 +705,14 @@ name = "commercerack-product"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "async-trait",
  "chrono",
  "commercerack-db",
+ "entity",
  "rust_decimal",
+ "sea-orm",
  "serde",
  "serde_json",
- "sqlx",
  "tokio",
 ]
 
