@@ -10,7 +10,7 @@ import json
 import time
 import subprocess
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 
 class SpecialistAgent:
     """Specialist agent that processes delegated tasks"""
