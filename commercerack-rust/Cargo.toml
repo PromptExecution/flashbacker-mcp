@@ -76,7 +76,7 @@ rust_decimal = "1.36"
 reqwest = { version = "0.12", features = ["json"] }
 
 # 📖 API Documentation (OpenAPI/Swagger)
-utoipa = { version = "5.2", features = ["axum_extras", "chrono", "uuid", "rust_decimal"] }
+utoipa = { version = "5.2", features = ["axum_extras", "chrono", "uuid"] }
 utoipa-swagger-ui = { version = "8.0", features = ["axum"] }
 utoipa-rapidoc = { version = "5.0", features = ["axum"] }
 
