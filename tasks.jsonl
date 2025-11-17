@@ -7,6 +7,6 @@
 {"id":"T007","phase":"develop","status":"pending","task":"Complete schema migrations (130 tables)","deps":["T001"],"agent":"database-architect"}
 {"id":"T008","phase":"develop","status":"done","task":"Implement Product crate","deps":["T006"],"agent":"rust-expert","outcome":"Product + SKU CRUD + 2/2 tests passing"}
 {"id":"T009","phase":"develop","status":"done","task":"Build Axum API server","deps":["T006"],"agent":"api-designer","outcome":"REST API with Customer/Product/Order endpoints"}
-{"id":"T010","phase":"develop","status":"pending","task":"Implement Cart engine","deps":["T008"],"agent":"rust-expert"}
+{"id":"T010","phase":"develop","status":"done","task":"Implement Cart engine","deps":["T008"],"agent":"rust-expert","outcome":"In-memory cart with UUID + 3/3 tests passing"}
 {"id":"T011","phase":"test","status":"pending","task":"Integration test suite","deps":["T006","T008"],"agent":"qa"}
 {"id":"T012","phase":"evaluate","status":"pending","task":"Security audit","deps":["T009"],"agent":"security"}

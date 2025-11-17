@@ -307,8 +307,12 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "axum",
+ "commercerack-cart",
  "commercerack-customer",
  "commercerack-db",
+ "commercerack-order",
+ "commercerack-product",
+ "rust_decimal",
  "serde",
  "tokio",
 ]

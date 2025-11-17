@@ -6,7 +6,11 @@ edition.workspace = true
 [dependencies]
 commercerack-db = { path = "../db" }
 commercerack-customer = { path = "../customer" }
+commercerack-product = { path = "../product" }
+commercerack-order = { path = "../order" }
+commercerack-cart = { path = "../cart" }
 axum.workspace = true
 tokio.workspace = true
 serde.workspace = true
 anyhow.workspace = true
+rust_decimal.workspace = true
