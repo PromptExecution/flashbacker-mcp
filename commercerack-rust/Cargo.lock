@@ -383,8 +383,11 @@ name = "commercerack-order"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "chrono",
  "commercerack-db",
+ "rust_decimal",
  "serde",
+ "serde_json",
  "sqlx",
  "tokio",
 ]
