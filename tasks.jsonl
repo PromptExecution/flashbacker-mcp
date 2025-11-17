@@ -5,7 +5,7 @@
 {"id":"T005","phase":"develop","status":"done","task":"Create executable justfile","outcome":"70+ commands memoized"}
 {"id":"T006","phase":"develop","status":"done","task":"Implement Customer crate","deps":["T003"],"agent":"rust-expert","outcome":"Customer CRUD + Argon2 auth + 4/4 tests passing"}
 {"id":"T007","phase":"develop","status":"pending","task":"Complete schema migrations (130 tables)","deps":["T001"],"agent":"database-architect"}
-{"id":"T008","phase":"develop","status":"pending","task":"Implement Product crate","deps":["T006"],"agent":"rust-expert"}
+{"id":"T008","phase":"develop","status":"done","task":"Implement Product crate","deps":["T006"],"agent":"rust-expert","outcome":"Product + SKU CRUD + 2/2 tests passing"}
 {"id":"T009","phase":"develop","status":"pending","task":"Build Axum API server","deps":["T006"],"agent":"api-designer"}
 {"id":"T010","phase":"develop","status":"pending","task":"Implement Cart engine","deps":["T008"],"agent":"rust-expert"}
 {"id":"T011","phase":"test","status":"pending","task":"Integration test suite","deps":["T006","T008"],"agent":"qa"}
